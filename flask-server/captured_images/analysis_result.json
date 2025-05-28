@@ -1,0 +1,26 @@
+[
+    {
+        "age": 29,
+        "gender": "Woman"
+    },
+    {
+        "age": 27,
+        "gender": "Woman"
+    },
+    {
+        "age": 29,
+        "gender": "Woman"
+    },
+    {
+        "age": 26,
+        "gender": "Man"
+    },
+    {
+        "age": 35,
+        "gender": "Man"
+    },
+    {
+        "age": 30,
+        "gender": "Woman"
+    }
+]

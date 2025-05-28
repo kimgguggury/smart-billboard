@@ -1,0 +1,8 @@
+﻿ad_id,title,image_path,target_sex,target_age,M-2,M-3,d-0
+1,Face Cream for Women,cream.jpg,W,2,0.0,1.0,0.0
+2,Men’s Watch,watch1.jpg,M,2,5.0,1.0,0.0
+3,Kids Toys,toy.jpg,M,1,3.0,0.0,2.0
+4,Luxury Watch,watch2.jpg,M,4,0.0,0.0,0.0
+5,Anti-Aging Cream,anti_aging.jpg,W,4,0.0,0.0,0.0
+6,Unisex Perfume,perfume.jpg,M,3,1.0,0.0,0.0
+7,Premium Sunglasses,sunglasses.jpg,W,3,0.0,0.0,0.0

@@ -1,0 +1,31 @@
+/* App.css */
+
+/* 전체 화면을 중앙 정렬 */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 전체 화면 높이 */
+  background-color: #f0f0f0; /* 배경색 (선택) */
+  text-align: center;
+}
+
+/* 콘텐츠 영역 (이미지 + 제목) */
+.content {
+  width: 80%; /* 전체 화면의 80% 차지 */
+  max-width: 800px;
+}
+
+/* 광고 이미지 스타일 */
+.content img {
+  width: 100%; /* 이미지가 가로로 꽉 차도록 */
+  height: auto; /* 자동 높이 (비율 유지) */
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* 광고 제목 스타일 */
+.content h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
