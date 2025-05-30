@@ -17,20 +17,22 @@ current_ad_path = "current_ad.json"  # 현재 광고 ID 파일
 # dlib 각위 검색기 및 랜드링 클래스 로드해서 보유
 
 detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
+predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat") 
+#68개의 점을 예측하는  사전 학습된 파일.
 
+#현재 어떤 광고가 화면에 표시되고 있는 지 알아내는 함수
 def get_current_ad_id():
     try:
         with open(current_ad_path, "r", encoding="utf-8") as f:
             return json.load(f).get("ad_id")
     except:
-        print("❌ current_ad.json 파일 없음")
+        print("current_ad.json 파일 없음")
         return None
 
 def analyze_image():
     camera = cv2.VideoCapture(0)
     if not camera.isOpened():
-        print("❌ 카메라 열 수 없음")
+        print("카메라 열 수 없음")
         return
 
     print("✅ 시작: 열 번째 고급시 검사")
@@ -39,35 +41,41 @@ def analyze_image():
         while True:
             success, frame = camera.read()
             if not success:
-                print("❌ 카메라 프매임 읽을 수 없음")
+                print("카메라 프매임 읽을 수 없음")
                 time.sleep(1)
                 continue
 
             # 1. DeepFace + RetinaFace 추적
-            results = RetinaFace.detect_faces(frame)
+            results = RetinaFace.detect_faces(frame) #딕셔너리 형태로 반환
+            '''
+            {
+              "face_1": {"facial_area": [x1, y1, x2, y2], ...},
+              "face_2": {"facial_area": [x1, y1, x2, y2], ...},
+                ...
+            }
+
+            '''
             current_data = []
 
             for face_id in results:
-                face_info = results[face_id]
-                x1, y1, x2, y2 = face_info["facial_area"]
+                face_info = results[face_id] #face_1
+                x1, y1, x2, y2 = face_info["facial_area"] 
                 face_img = frame[y1:y2, x1:x2]
                 if face_img.size == 0:
                     continue
-                try:
-                    result = DeepFace.analyze(
-                        face_img,
-                        actions=["age", "gender"],
-                        detector_backend="skip",
-                        enforce_detection=False
-                    )
-                    analyzed_data = {
-                        "age": int(result[0]["age"]),
-                        "gender": result[0]["dominant_gender"]
-                    }
-                    current_data.append(analyzed_data)
-                except Exception as e:
-                    print("❌ DeepFace 분석 오류:", e)
-
+                
+                result = DeepFace.analyze(
+                    face_img,
+                    actions=["age", "gender"],
+                    detector_backend="skip",
+                    enforce_detection=False
+                )
+                analyzed_data = {
+                    "age": int(result[0]["age"]),
+                    "gender": result[0]["dominant_gender"]
+                }
+                current_data.append(analyzed_data)
+               
             # 2. 결과 저장
             with open(analysis_result_path, "w", encoding="utf-8") as json_file:
                 json.dump(current_data, json_file, ensure_ascii=False, indent=4)
@@ -84,12 +92,13 @@ def analyze_image():
         print("✅ 카메라 해제")
 
 def analyze_view(camera):
+
     success, frame = camera.read()
     if not success:
-        print("❌ 카메라 프매임 읽기 실패 (view)")
+        print("카메라 프매임 읽기 실패 (view)")
         return
 
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cv2tColor(frame, cv2.COLOR_BGR2GRAY)
     faces = detector(gray)
     view_data = []
 
