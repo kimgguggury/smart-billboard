@@ -98,47 +98,57 @@ def analyze_view(camera):
         print("카메라 프매임 읽기 실패 (view)")
         return
 
-    gray = cv2.cv2tColor(frame, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = detector(gray)
     view_data = []
 
     for face in faces:
         shape = predictor(gray, face)
-        image_points = np.array([
-            (shape.part(30).x, shape.part(30).y),
-            (shape.part(8).x, shape.part(8).y),
+        
+        #이미지 상에서의 2D좌표
+        image_points = np.array([ 
+            (shape.part(30).x, shape.part(30).y), #30은 코
+            (shape.part(8).x, shape.part(8).y), #턱 끝끝
             (shape.part(36).x, shape.part(36).y),
             (shape.part(45).x, shape.part(45).y),
             (shape.part(48).x, shape.part(48).y),
             (shape.part(54).x, shape.part(54).y)
         ], dtype="double")
 
+
+        #3차원 모델 좌표
+        #실제 얼굴 구조를 기준으로 한 정해진 3차원 위치들
         model_points = np.array([
-            (0.0, 0.0, 0.0),
-            (0.0, -330.0, -65.0),
+            (0.0, 0.0, 0.0), #코끝
+            (0.0, -330.0, -65.0), #턱끝
             (-225.0, 170.0, -135.0),
             (225.0, 170.0, -135.0),
             (-150.0, -150.0, -125.0),
             (150.0, -150.0, -125.0)
         ])
 
+
         size = frame.shape
-        focal_length = size[1]
+        focal_length = size[1] # shape함수에 의해 (480, 640, 3) 세로, 가로, 채널
+        #초점거리를 대략적으로 화면의 너비값으로 설정
+
+        #카메라 내부 파라미터를 설정하는 부분
         center = (size[1] / 2, size[0] / 2)
         camera_matrix = np.array([
             [focal_length, 0, center[0]],
             [0, focal_length, center[1]],
             [0, 0, 1]
         ], dtype="double")
-        dist_coeffs = np.zeros((4, 1))
+        dist_coeffs = np.zeros((4, 1)) #왜곡없음
 
         success, rotation_vector, translation_vector = cv2.solvePnP(
             model_points, image_points, camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_ITERATIVE
         )
 
-        rvec_matrix, _ = cv2.Rodrigues(rotation_vector)
-        proj_matrix = np.hstack((rvec_matrix, translation_vector))
-        _, _, _, _, _, _, euler_angles = cv2.decomposeProjectionMatrix(proj_matrix)
+        rvec_matrix, _ = cv2.Rodrigues(rotation_vector) #3D회전벡ㅊ터를 회전 행렬로 바꿈
+        proj_matrix = np.hstack((rvec_matrix, translation_vector))# 투영 행렬로 바꿈
+        _, _, _, _, _, _, euler_angles = cv2.decomposeProjectionMatrix(proj_matrix) 
+        #투영행렬부터 각도를 구함
 
         pitch, yaw, roll = [angle[0] for angle in euler_angles]
         if pitch > 90: pitch = 180 - pitch
@@ -169,11 +179,11 @@ def analyze_view(camera):
                 "http://localhost:5000/api/viewed",
                 json={"ad_id": ad_id, "people": view_data}
             )
-            print("📡 view 전송 완료:", response.status_code, response.text)
+            print("view 전송 완료:", response.status_code, response.text)
         except Exception as e:
-            print("❌ 서버 전송 실패:", e)
+            print("서버 전송 실패:", e)
     else:
-        print("❌ 정면 없음 또는 광고 ID 없음")
+        print("정면 없음 또는 광고 ID 없음")
 
 if __name__ == "__main__":
     analyze_image()

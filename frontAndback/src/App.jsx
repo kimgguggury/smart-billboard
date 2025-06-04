@@ -7,7 +7,7 @@ function App() {
   const [analyzeResult, setAnalyzeResult] = useState([]);
   const [ads, setAds] = useState([]);
   const [selectedAd, setSelectedAd] = useState(null);
-
+  // const safeImagePath = selectedAd.image_path.replace(/\\/g, '/');
   useEffect(() => {
     const fetchAds = async () => {
       try {
@@ -20,13 +20,14 @@ function App() {
 
     fetchAds();
 
+    // ✅ SSE: 실시간 분석 결과 수신
     const eventSource = new EventSource("http://localhost:5000/api/analyze-stream");
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       console.log("Received Analysis Data:", data);
       
       if (Array.isArray(data) && data.length > 0) {
-        setAnalyzeResult(data); // 전체 배열 저장
+        setAnalyzeResult(data);
       }
     };
 
@@ -38,7 +39,7 @@ function App() {
   useEffect(() => {
     if (analyzeResult.length > 0) {
       const ageGenderCount = Array.from(Array(2), () => Array(7).fill(0));
-
+      
       analyzeResult.forEach((person) => {
         const ageGroup = Math.min(Math.floor(person.age / 10), 6);
         const genderIndex = person.gender === "Man" ? 0 : 1;
@@ -75,7 +76,6 @@ function App() {
       if (filteredAds.length > 0) {
         setSelectedAd(filteredAds[0]);
 
-        // ✅ 선택된 광고 ID를 서버로 전송 → current_ad.json 생성/갱신
         axios.post("http://localhost:5000/api/current-ad", {
           ad_id: filteredAds[0].ad_id,
         }).catch((error) => {
@@ -93,7 +93,11 @@ function App() {
       {selectedAd ? (
         <div className="content">
           <h2>{selectedAd.title}</h2>
-          <img src={selectedAd.image_path} alt={selectedAd.title} />
+         <img
+            src={`http://localhost:5000/static/${selectedAd.image_path.replace(/\\/g, '/')}`}
+            alt={selectedAd.title}
+          />
+
         </div>
       ) : (
         <p>No matching ad found.</p>
