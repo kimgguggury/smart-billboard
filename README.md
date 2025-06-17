@@ -34,7 +34,7 @@ $ npm start
 
 
 # 3. Technology Stack (기술 스택)
-## 5.1 Language
+## 3.1 Language
 |  |  |
 |-----------------|-----------------|
 | HTML5    |<img src="https://github.com/user-attachments/assets/2e122e74-a28b-4ce7-aff6-382959216d31" alt="HTML5" width="100">| 
@@ -43,23 +43,23 @@ $ npm start
 | python    |<img src="https://www.python.org/static/community_logos/python-logo.png" alt="Python" width="100"> |
 <br/>
 
-## 5.2 Frotend
+## 3.2 Frotend
 |  |  |  |
 |-----------------|-----------------|-----------------|
 | React    |  <img src="https://github.com/user-attachments/assets/e3b49dbb-981b-4804-acf9-012c854a2fd2" alt="React" width="100"> | 18.3.1    |
 
 <br/>
 
-## 5.3 Backend
+## 3.3 Backend
 |  |  |  |
 |-----------------|-----------------|-----------------|
 | Flask       | <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Flask_logo.svg" alt="Flask" width="100"> | 3.0.2     |
 | SQLite3     | <img src="https://www.sqlite.org/images/sqlite370_banner.gif" alt="SQLite3" width="100"> | 3.45.1    |
 | Deepface     | <img src="https://raw.githubusercontent.com/serengil/deepface/master/icon/deepface-icon.png" alt="DeepFace" width="100">
-
+| Dlib |<img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Dlib_logo.png" alt="Dlib" width="100">| 19.24 |
 <br/>
 
-## 5.4 Cooperation
+## 3.4 Cooperation
 |  |  |
 |-----------------|-----------------|
 | Git    |  <img src="https://github.com/user-attachments/assets/483abc38-ed4d-487c-b43a-3963b33430e6" alt="git" width="100">    |
