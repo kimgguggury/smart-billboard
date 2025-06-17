@@ -33,7 +33,7 @@ $ npm start
 
 
 
-# 5. Technology Stack (기술 스택)
+# 3. Technology Stack (기술 스택)
 ## 5.1 Language
 |  |  |
 |-----------------|-----------------|
