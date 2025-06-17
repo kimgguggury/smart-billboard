@@ -56,7 +56,7 @@ $ npm start
 | Flask       | <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Flask_logo.svg" alt="Flask" width="100"> | 3.0.2     |
 | SQLite3     | <img src="https://www.sqlite.org/images/sqlite370_banner.gif" alt="SQLite3" width="100"> | 3.45.1    |
 | Deepface     | <img src="https://raw.githubusercontent.com/serengil/deepface/master/icon/deepface-icon.png" alt="DeepFace" width="100">
-| Dlib |<img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Dlib_logo.png" alt="Dlib" width="100">| 19.24 |
+| Dlib | | 19.24 |
 <br/>
 
 ## 3.4 Cooperation
