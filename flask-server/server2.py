@@ -75,9 +75,29 @@ def update_view_count():
 
             # 성별 M/W 변환
             sex = "M" if gender.lower().startswith("m") else "W"
-            age_group = min(int(age) // 10, 6)  # 최대 60대까지, 70대 이상도 6에 포함
+            # if age < 10:
+            #     continue
+            # age_group = min((int(age) // 10) - 1, 6)
+            # age_group: 10대 → 0, 20대 → 1, ..., 70대 이상 → 6
+            if int(age) < 20:
+                age_group = 0
+            elif int(age) < 30:
+                age_group = 1
+            elif int(age) < 40:
+                age_group = 2
+            elif int(age) < 50:
+                age_group = 3
+            elif int(age) < 60:
+                age_group = 4
+            elif int(age) < 70:
+                age_group = 5
+            else:
+                age_group = 6
 
-            # view_count 업데이트 (sex, age_group 컬럼 기반)
+
+            print(f"👁️‍🗨️ 나이: {age}, 성별: {gender}, 계산된 age_group: {age_group}")
+
+           # view_count 업데이트 (sex, age_group 컬럼 기반)
             #먼저 연령과 성별에 해당하는 게 있는 지 확인하는 부분
             cursor.execute(
                 "SELECT view_count FROM ad_stats WHERE ad_id = ? AND sex = ? AND age_group = ?",
@@ -98,6 +118,9 @@ def update_view_count():
 
         conn.commit()
         print(f"✅ 광고 {ad_id} → 총 {len(people)}명 view_count 반영 완료")
+        # 이 부분을 추가하세요 (update_view_count 함수 내부)
+        print(f"👁️‍🗨️ 나이: {age}, 성별: {gender}, 계산된 그룹: {age_group}")
+
         return jsonify({"message": f"View count updated: +{len(people)}", "ad_id": ad_id})
 
     except sqlite3.OperationalError as e:
